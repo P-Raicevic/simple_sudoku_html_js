@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Sudoku</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <style type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Press+Start+2P:100,300,400,600,700);
+
+        html, body{
+            background-color: #4a5058;
+            min-width: 500px;
+            font-family: 'Press Start 2P', cursive;
+            font-weight: 200;
+                    }
+        #content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        
+        }
+        #buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        h1{
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+        
+            color: aliceblue;
+        }
+
+        table{
+            border: 1px solid #000000;
+            /* margin: 20px;
+            border-collapse: collapse; */
+        }
+
+        td{
+            border: 2px solid #000000;
+            text-align:center;
+            vertical-align: middle;
+        }
+
+        input{
+            color: #000000;
+            padding: 0;
+            border: 0;
+            text-align: center;
+            width:48px;
+            height: 48px;
+            font-size: 24px;
+            background-color: #fafafa;
+            outline: none;
+        }
+        #cell-0, #cell-1, #cell-2 {border-top: 2px solid #000000}
+        #cell-2, #cell-11, #cell-20 {border-right: 2px solid #000000}
+        #cell-20, #cell-19, #cell-18 {border-bottom: 2px solid #000000}
+        #cell-0, #cell-9, #cell-18 {border-left: 2px solid #000000}
+
+        #cell-3, #cell-4, #cell-5 {border-top: 2px solid #000000}
+        #cell-5, #cell-14, #cell-23 {border-right: 2px solid #000000}
+        #cell-21, #cell-22, #cell-23 {border-bottom: 2px solid #000000}
+        #cell-3, #cell-12, #cell-21 {border-left: 2px solid #000000}
+
+        #cell-6, #cell-7, #cell-8 {border-top: 2px solid #000000}
+        #cell-8, #cell-17, #cell-26 {border-right: 2px solid #000000}
+        #cell-24, #cell-25, #cell-26 {border-bottom: 2px solid #000000}
+        #cell-6, #cell-15, #cell-24 {border-left: 2px solid #000000}
+
+        #cell-27, #cell-28, #cell-29 {border-top: 2px solid #000000}
+        #cell-29, #cell-38, #cell-47 {border-right: 2px solid #000000}
+        #cell-45, #cell-46, #cell-47 {border-bottom: 2px solid #000000}
+        #cell-27, #cell-36, #cell-45 {border-left: 2px solid #000000}
+
+        #cell-30, #cell-31, #cell-32 {border-top: 2px solid #000000}
+        #cell-32, #cell-41, #cell-50 {border-right: 2px solid #000000}
+        #cell-48, #cell-49, #cell-50 {border-bottom: 2px solid #000000}
+        #cell-30, #cell-39, #cell-48 {border-left: 2px solid #000000}
+
+        #cell-33, #cell-34, #cell-35 {border-top: 2px solid #000000}
+        #cell-35, #cell-44, #cell-53 {border-right: 2px solid #000000}
+        #cell-51, #cell-52, #cell-53 {border-bottom: 2px solid #000000}
+        #cell-33, #cell-42, #cell-51 {border-left: 2px solid #000000}
+
+        #cell-54, #cell-55, #cell-56 {border-top: 2px solid #000000}
+        #cell-56, #cell-65, #cell-74 {border-right: 2px solid #000000}
+        #cell-72, #cell-73, #cell-74 {border-bottom: 2px solid #000000}
+        #cell-54, #cell-63, #cell-72 {border-left: 2px solid #000000}
+
+        #cell-57, #cell-58, #cell-59 {border-top: 2px solid #000000}
+        #cell-59, #cell-68, #cell-77 {border-right: 2px solid #000000}
+        #cell-75, #cell-76, #cell-77 {border-bottom: 2px solid #000000}
+        #cell-57, #cell-66, #cell-75 {border-left: 2px solid #000000}
+
+        #cell-60, #cell-61, #cell-62 {border-top: 2px solid #000000}
+        #cell-62, #cell-71, #cell-80 {border-right: 2px solid #000000}
+        #cell-78, #cell-79, #cell-80 {border-bottom: 2px solid #000000}
+        #cell-60, #cell-69, #cell-78 {border-left: 2px solid #000000}
+
+      
+        
+        button{
+            display: block;
+            position: relative;
+            float:  left;
+            padding: 10px;
+
+            margin: 10px 5px 10px 5px;
+  
+            text-align: center;
+            color: #FFF;
+            border-radius: 5px;
+            border: none;
+            transition: all 0.2s ;
+        }
+
+        .btnLightBlue {
+            background: #5DC8CD;
+        }
+
+        .btnLightBlue.btnPush {
+            box-shadow: 0px 5px 0px 0px #1E8185;
+        }
+
+        .btnPush:hover {
+        margin-top: 15px;
+        margin-bottom: 5px;
+        }
+
+        .btnLightBlue.btnPush:hover {
+        box-shadow: 0px 0px 0px 0px #1E8185;
+        }
+
+        #hints, #mistakes{
+            color: #000000;
+        }
+
+        .difficultywrapper{
+            clear:both;
+        }
+
+        .difficulty{
+            float:left;   
+        }
+
+        .difficultydd{
+            float:left;   
+            /* line-height:20px; */
+            margin-left:8px;
+            margin-top:10px;
+        }
+
+        label{
+            display: inline;
+        }
+
+        #pausedScreen{
+            margin-top:120px;
+            margin-bottom:120px;
+        }
+
+
+    </style>
+    <body oncontextmenu="return false;">
+        <div id="content">
+        <h1>Welcome to Sudoku</h1>
+
+        <div class="difficultywrapper">
+            <div class="difficulty">
+                <h4>Difficulty: </h4>
+            </div>
+            <div class="difficultydd">
+                <select id="difficultydd">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                    <option value="random">Random</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <p id="timer"></p>
+        </div>
+
+        <div>
+            <button id="timerButton" onclick="toggleTimer()">Pause</button>
+        </div>
+
+        <h1 id="pausedScreen" hidden>Game is Paused</h1>
+
+        <table id="table">
+            <tr>
+                <td onclick="shadow(0, 0)" onauxclick="hint(0, 0)" onkeydown="check1(event, 0, 0)"><input id="cell-0" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(0, 1)" onauxclick="hint(0, 1)" onkeydown="check1(event, 0, 1)"><input id="cell-1" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(0, 2)" onauxclick="hint(0, 2)" onkeydown="check1(event, 0, 2)"><input id="cell-2" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(0, 3)" onauxclick="hint(0, 3)" onkeydown="check1(event, 0, 3)"><input id="cell-3" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(0, 4)" onauxclick="hint(0, 4)" onkeydown="check1(event, 0, 4)"><input id="cell-4" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(0, 5)" onauxclick="hint(0, 5)" onkeydown="check1(event, 0, 5)"><input id="cell-5" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(0, 6)" onauxclick="hint(0, 6)" onkeydown="check1(event, 0, 6)"><input id="cell-6" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(0, 7)" onauxclick="hint(0, 7)" onkeydown="check1(event, 0, 7)"><input id="cell-7" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(0, 8)" onauxclick="hint(0, 8)" onkeydown="check1(event, 0, 8)"><input id="cell-8" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(1, 0)" onauxclick="hint(1, 0)" onkeydown="check1(event, 1, 0)"><input id="cell-9" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(1, 1)" onauxclick="hint(1, 1)" onkeydown="check1(event, 1, 1)"><input id="cell-10" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(1, 2)" onauxclick="hint(1, 2)" onkeydown="check1(event, 1, 2)"><input id="cell-11" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(1, 3)" onauxclick="hint(1, 3)" onkeydown="check1(event, 1, 3)"><input id="cell-12" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(1, 4)" onauxclick="hint(1, 4)" onkeydown="check1(event, 1, 4)"><input id="cell-13" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(1, 5)" onauxclick="hint(1, 5)" onkeydown="check1(event, 1, 5)"><input id="cell-14" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(1, 6)" onauxclick="hint(1, 6)" onkeydown="check1(event, 1, 6)"><input id="cell-15" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(1, 7)" onauxclick="hint(1, 7)" onkeydown="check1(event, 1, 7)"><input id="cell-16" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(1, 8)" onauxclick="hint(1, 8)" onkeydown="check1(event, 1, 8)"><input id="cell-17" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(2, 0)" onauxclick="hint(2, 0)" onkeydown="check1(event, 2, 0)"><input id="cell-18" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(2, 1)" onauxclick="hint(2, 1)" onkeydown="check1(event, 2, 1)"><input id="cell-19" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(2, 2)" onauxclick="hint(2, 2)" onkeydown="check1(event, 2, 2)"><input id="cell-20" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(2, 3)" onauxclick="hint(2, 3)" onkeydown="check1(event, 2, 3)"><input id="cell-21" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(2, 4)" onauxclick="hint(2, 4)" onkeydown="check1(event, 2, 4)"><input id="cell-22" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(2, 5)" onauxclick="hint(2, 5)" onkeydown="check1(event, 2, 5)"><input id="cell-23" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(2, 6)" onauxclick="hint(2, 6)" onkeydown="check1(event, 2, 6)"><input id="cell-24" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(2, 7)" onauxclick="hint(2, 7)" onkeydown="check1(event, 2, 7)"><input id="cell-25" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(2, 8)" onauxclick="hint(2, 8)" onkeydown="check1(event, 2, 8)"><input id="cell-26" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(3, 0)" onauxclick="hint(3, 0)" onkeydown="check1(event, 3, 0)"><input id="cell-27" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(3, 1)" onauxclick="hint(3, 1)" onkeydown="check1(event, 3, 1)"><input id="cell-28" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(3, 2)" onauxclick="hint(3, 2)" onkeydown="check1(event, 3, 2)"><input id="cell-29" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(3, 3)" onauxclick="hint(3, 3)" onkeydown="check1(event, 3, 3)"><input id="cell-30" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(3, 4)" onauxclick="hint(3, 4)" onkeydown="check1(event, 3, 4)"><input id="cell-31" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(3, 5)" onauxclick="hint(3, 5)" onkeydown="check1(event, 3, 5)"><input id="cell-32" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(3, 6)" onauxclick="hint(3, 6)" onkeydown="check1(event, 3, 6)"><input id="cell-33" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(3, 7)" onauxclick="hint(3, 7)" onkeydown="check1(event, 3, 7)"><input id="cell-34" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(3, 8)" onauxclick="hint(3, 8)" onkeydown="check1(event, 3, 8)"><input id="cell-35" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(4, 0)" onauxclick="hint(4, 0)" onkeydown="check1(event, 4, 0)"><input id="cell-36" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(4, 1)" onauxclick="hint(4, 1)" onkeydown="check1(event, 4, 1)"><input id="cell-37" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(4, 2)" onauxclick="hint(4, 2)" onkeydown="check1(event, 4, 2)"><input id="cell-38" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(4, 3)" onauxclick="hint(4, 3)" onkeydown="check1(event, 4, 3)"><input id="cell-39" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(4, 4)" onauxclick="hint(4, 4)" onkeydown="check1(event, 4, 4)"><input id="cell-40" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(4, 5)" onauxclick="hint(4, 5)" onkeydown="check1(event, 4, 5)"><input id="cell-41" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(4, 6)" onauxclick="hint(4, 6)" onkeydown="check1(event, 4, 6)"><input id="cell-42" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(4, 7)" onauxclick="hint(4, 7)" onkeydown="check1(event, 4, 7)"><input id="cell-43" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(4, 8)" onauxclick="hint(4, 8)" onkeydown="check1(event, 4, 8)"><input id="cell-44" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(5, 0)" onauxclick="hint(5, 0)" onkeydown="check1(event, 5, 0)"><input id="cell-45" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(5, 1)" onauxclick="hint(5, 1)" onkeydown="check1(event, 5, 1)"><input id="cell-46" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(5, 2)" onauxclick="hint(5, 2)" onkeydown="check1(event, 5, 2)"><input id="cell-47" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(5, 3)" onauxclick="hint(5, 3)" onkeydown="check1(event, 5, 3)"><input id="cell-48" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(5, 4)" onauxclick="hint(5, 4)" onkeydown="check1(event, 5, 4)"><input id="cell-49" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(5, 5)" onauxclick="hint(5, 5)" onkeydown="check1(event, 5, 5)"><input id="cell-50" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(5, 6)" onauxclick="hint(5, 6)" onkeydown="check1(event, 5, 6)"><input id="cell-51" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(5, 7)" onauxclick="hint(5, 7)" onkeydown="check1(event, 5, 7)"><input id="cell-52" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(5, 8)" onauxclick="hint(5, 8)" onkeydown="check1(event, 5, 8)"><input id="cell-53" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(6, 0)" onauxclick="hint(6, 0)" onkeydown="check1(event, 6, 0)"><input id="cell-54" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(6, 1)" onauxclick="hint(6, 1)" onkeydown="check1(event, 6, 1)"><input id="cell-55" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(6, 2)" onauxclick="hint(6, 2)" onkeydown="check1(event, 6, 2)"><input id="cell-56" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(6, 3)" onauxclick="hint(6, 3)" onkeydown="check1(event, 6, 3)"><input id="cell-57" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(6, 4)" onauxclick="hint(6, 4)" onkeydown="check1(event, 6, 4)"><input id="cell-58" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(6, 5)" onauxclick="hint(6, 5)" onkeydown="check1(event, 6, 5)"><input id="cell-59" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(6, 6)" onauxclick="hint(6, 6)" onkeydown="check1(event, 6, 6)"><input id="cell-60" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(6, 7)" onauxclick="hint(6, 7)" onkeydown="check1(event, 6, 7)"><input id="cell-61" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(6, 8)" onauxclick="hint(6, 8)" onkeydown="check1(event, 6, 8)"><input id="cell-62" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(7, 0)" onauxclick="hint(7, 0)" onkeydown="check1(event, 7, 0)"><input id="cell-63" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(7, 1)" onauxclick="hint(7, 1)" onkeydown="check1(event, 7, 1)"><input id="cell-64" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(7, 2)" onauxclick="hint(7, 2)" onkeydown="check1(event, 7, 2)"><input id="cell-65" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(7, 3)" onauxclick="hint(7, 3)" onkeydown="check1(event, 7, 3)"><input id="cell-66" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(7, 4)" onauxclick="hint(7, 4)" onkeydown="check1(event, 7, 4)"><input id="cell-67" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(7, 5)" onauxclick="hint(7, 5)" onkeydown="check1(event, 7, 5)"><input id="cell-68" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(7, 6)" onauxclick="hint(7, 6)" onkeydown="check1(event, 7, 6)"><input id="cell-69" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(7, 7)" onauxclick="hint(7, 7)" onkeydown="check1(event, 7, 7)"><input id="cell-70" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(7, 8)" onauxclick="hint(7, 8)" onkeydown="check1(event, 7, 8)"><input id="cell-71" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+
+            <tr>
+                <td onclick="shadow(8, 0)" onauxclick="hint(8, 0)" onkeydown="check1(event, 8, 0)"><input id="cell-72" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(8, 1)" onauxclick="hint(8, 1)" onkeydown="check1(event, 8, 1)"><input id="cell-73" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(8, 2)" onauxclick="hint(8, 2)" onkeydown="check1(event, 8, 2)"><input id="cell-74" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(8, 3)" onauxclick="hint(8, 3)" onkeydown="check1(event, 8, 3)"><input id="cell-75" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(8, 4)" onauxclick="hint(8, 4)" onkeydown="check1(event, 8, 4)"><input id="cell-76" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(8, 5)" onauxclick="hint(8, 5)" onkeydown="check1(event, 8, 5)"><input id="cell-77" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+
+                <td onclick="shadow(8, 6)" onauxclick="hint(8, 6)" onkeydown="check1(event, 8, 6)"><input id="cell-78" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(8, 7)" onauxclick="hint(8, 7)" onkeydown="check1(event, 8, 7)"><input id="cell-79" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+                <td onclick="shadow(8, 8)" onauxclick="hint(8, 8)" onkeydown="check1(event, 8, 8)"><input id="cell-80" type="text" maxlength="1" oninput="this.value=this.value.replace(/[^1-9]/g,'');"></td>
+            </tr>
+        </table>
+
+<div id="#buttons">
+        <h4 id="mistakes">Mistakes: 0</h4>
+        <h4 id="hints">Hints: 0</h4>
+        <button class="solveButton1  btnPush btnLightBlue" onclick="nakedPair()">Solve</button>
+        <button class="solveButton  btnPush btnLightBlue" onclick="hint()">Hint</button>
+        <button class="solveButton  btnPush btnLightBlue" onclick="reset()">Reset</button>
+        <button class="solveButton  btnPush btnLightBlue" onclick="generate()">Generate new Sudoku</button>
+        <script type="text/javascript" src="solver1.js"></script>
+    </div>
+</div>
+    </body>
+</html>
